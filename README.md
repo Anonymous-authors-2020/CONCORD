@@ -13,8 +13,8 @@ To quickly start, you need to first download our pre-training and fine-tuning da
   - [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6518078.svg)](https://doi.org/10.5281/zenodo.6518078)
 
 After downloading it, you need to unzip it, and you will see:
-  - Data: `CONCORD_data_models/data`
-  - Pre-trained Models: `CONCORD_data_models/pretrained_models`
+  - Data: `CONCORD_under_submission/data`
+  - Pre-trained Models: `CONCORD_under_submission/pretrained_models`
 
 ## Use Pre-trained CONCORD for Fine-tuning
 We provide the instuctions about how to fine-tune CONCORD for downstream tasks that we mentioned in the paper. We provide an example script for one benchmark in each task, and to run all benchmarks, please change the file names.
@@ -22,7 +22,7 @@ We provide the instuctions about how to fine-tune CONCORD for downstream tasks t
 ```
 python run_finetune_cc.py \
     --task_name poj104 \
-    --model_name_or_path ../CONCORD_data_models/pretrained_models/CONCORD/ \
+    --model_name_or_path ../CONCORD_under_submission/pretrained_models/CONCORD/ \
     --config_name pretrain/config/concord_finetune_config.json \
     --per_device_eval_batch_size 8 \
     --per_device_train_batch_size 8 \
@@ -46,9 +46,9 @@ python run_finetune_cc.py \
     --seed 42 \
     --fp16 \
     --warmup_ratio 0.1 \
-    --train_file ../CONCORD_data_models/data/finetune/poj_cc/train.jsonl \
-    --validation_file ../CONCORD_data_models/data/finetune/poj_cc/valid.jsonl \
-    --test_file ../CONCORD_data_models/data/finetune/poj_cc/test.jsonl \
+    --train_file ../CONCORD_under_submission/data/finetune/poj_cc/train.jsonl \
+    --validation_file ../CONCORD_under_submission/data/finetune/poj_cc/valid.jsonl \
+    --test_file ../CONCORD_under_submission/data/finetune/poj_cc/test.jsonl \
     --overwrite_output_dir 2>&1 | tee poj104_cc_output/log_finetune
 ```
 
@@ -56,7 +56,7 @@ python run_finetune_cc.py \
 ```
 python run_finetune_vd.py \
 	--task_name cxg_vd \
-	--model_name_or_path ../CONCORD_data_models/pretrained_models/CONCORD/ \
+	--model_name_or_path ../CONCORD_under_submission/pretrained_models/CONCORD/ \
 	--config_name pretrain/config/concord_finetune_config.json \
 	--per_device_eval_batch_size 8 \
 	--per_device_train_batch_size 8 \
@@ -80,16 +80,16 @@ python run_finetune_vd.py \
 	--eval_steps 100 \
 	--save_steps=100 \
 	--logging_steps=100 \
-	--train_file ../CONCORD_data_models/data/finetune/d2a_vd/train_func.csv \
-	--validation_file ../CONCORD_data_models/data/finetune/d2a_vd/valid_func.csv \
-	--test_file ../CONCORD_data_models/data/finetune/d2a_vd/test_func.csv \
+	--train_file ../CONCORD_under_submission/data/finetune/d2a_vd/train_func.csv \
+	--validation_file ../CONCORD_under_submission/data/finetune/d2a_vd/valid_func.csv \
+	--test_file ../CONCORD_under_submission/data/finetune/d2a_vd/test_func.csv \
 	--overwrite_output_dir 2>&1 | tee $OUTPUT_DIR/log_finetune
 ```
 
 #### Code Search
 ```
 python run_finetune_cs_cxg.py \
-    --model_name_or_path ../CONCORD_data_models/pretrained_models/CONCORD-csnet/ \
+    --model_name_or_path ../CONCORD_under_submission/pretrained_models/CONCORD-csnet/ \
     --config_name pretrain/config/concord_finetune_config.json \
     --eval_batch_size 96 \
     --train_batch_size 96 \
@@ -104,15 +104,15 @@ python run_finetune_cs_cxg.py \
     --seed 42 \
     --warmup_ratio 0.01 \
     --num_train_epochs 100 \
-    --train_data_file ../CONCORD_data_models/data/finetune/cxg_codesearch/train.json \
-    --eval_data_file ../CONCORD_data_models/data/finetune/cxg_codesearch/valid.json \
-    --test_data_file ../CONCORD_data_models/data/finetune/cxg_codesearch/test.json \
-    --codebase_file ../CONCORD_data_models/data/finetune/cxg_codesearch/codebase.json 2>&1 | tee $OUTPUT_DIR/log_finetune
+    --train_data_file ../CONCORD_under_submission/data/finetune/cxg_codesearch/train.json \
+    --eval_data_file ../CONCORD_under_submission/data/finetune/cxg_codesearch/valid.json \
+    --test_data_file ../CONCORD_under_submission/data/finetune/cxg_codesearch/test.json \
+    --codebase_file ../CONCORD_under_submission/data/finetune/cxg_codesearch/codebase.json 2>&1 | tee $OUTPUT_DIR/log_finetune
 ```
 
 ## Pre-train CONCORD from scratch
 #### Phase-I Pre-training
-1. Merge files in `../CONCORD_data_models/data/pre-train/github/` into one single file `train.txt` or `test.txt`
+1. Merge files in `../CONCORD_under_submission/data/pre-train/github/` into one single file `train.txt` or `test.txt`
 2. BPE-tokenize the file using `vocab/multilingual_50k_vocab.model`
 3. Split the long samples into 512 tokens sub-sample.
 4. Run the following script. The batch size should be in total 2048, as we use 2 GPUs, so we set the batch size for each device to be 16 and accumulation steps to be 64.
@@ -149,7 +149,7 @@ python run_mlm.py \
 ```
 #### Phase-II Pre-training
 #### Code-only
-1. Augment the samples in `../CONCORD_data_models/data/pre-train/github/` using the this script
+1. Augment the samples in `../CONCORD_under_submission/data/pre-train/github/` using the this script
 2. Run the following script. The batch size should be in total 512, as we use 2 GPUs, so we set the batch size for each device to be 4 and accumulation steps to be 64.
 ```
 python run_concord_pretrain.py \
@@ -183,6 +183,6 @@ python run_concord_pretrain.py \
 ```
 
 #### Bi-modal CONCORD
-1. Augment the samples in `../CONCORD_data_models/data/pre-train/csnet/`.
+1. Augment the samples in `../CONCORD_under_submission/data/pre-train/csnet/`.
 2. Run the above script again with the new train/valid files. 
 
