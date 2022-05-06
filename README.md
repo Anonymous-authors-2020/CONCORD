@@ -6,7 +6,7 @@ This repository provides the code, data, and pre-trained models for the under-re
 
 We provide two options to use our tool:
 1. [Load our pre-trained model and fine-tune the model for downstream tasks](https://github.com/Anonymous-authors-2020/CONCORD#use-pre-trained-concord-for-fine-tuning)
-2. [Pre-train the model from scratch](https://github.com/Anonymous-authors-2020/CONCORD#pre-train-concord-from-scatch)
+2. [Pre-train the model from scratch](https://github.com/Anonymous-authors-2020/CONCORD#pre-train-concord-from-scratch)
 
 ### Data and Pre-trained Models
 To quickly start, you need to first download our pre-training and fine-tuning data, together with the pre-trained models from the following link
