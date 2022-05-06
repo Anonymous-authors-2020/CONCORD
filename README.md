@@ -152,7 +152,7 @@ python run_mlm.py \
 1. Augment the samples in `../CONCORD_data_models/data/pre-train/github/` using the this script
 2. Run the following script. The batch size should be in total 512, as we use 2 GPUs, so we set the batch size for each device to be 4 and accumulation steps to be 64.
 ```
-python -m torch.distributed.launch --nproc_per_node $NUM_GPU --master_port $PORT_ID run_concord_pretrain.py \
+python run_concord_pretrain.py \
   --preprocessing_num_workers 4 \
 	--config_name pretrain/config/concord_pretrain_config.json \
 	--model_name_or_path phase_i_pretrain_output \
