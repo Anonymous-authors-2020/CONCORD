@@ -17,7 +17,7 @@ After downloading it, you need to unzip it, and you will see:
   - Pre-trained Models: `CONCORD_under_submission/pretrained_models`
 
 ## Use Pre-trained CONCORD for Fine-tuning
-We provide the instuctions about how to fine-tune CONCORD for downstream tasks that we mentioned in the paper. We provide an example script for one benchmark in each task, and to run all benchmarks, please change the file names.
+We provide the instuctions about how to fine-tune CONCORD for downstream tasks that we mentioned in the paper. We provide an example script for one benchmark in each task, and to run all benchmarks, please change the file names and arguments accordingly
 #### Semantic Clone Detection
 ```
 python run_finetune_cc.py \
@@ -110,6 +110,28 @@ python run_finetune_cs_cxg.py \
     --codebase_file ../CONCORD_under_submission/data/finetune/cxg_codesearch/codebase.json 2>&1 | tee $OUTPUT_DIR/log_finetune
 ```
 
+#### Code Summarization
+
+```
+python run_finetune_sum.py \
+    --model_name_or_path ../CONCORD_under_submission/pretrained_models/CONCORD-csnet/ \
+    --output_dir cxg_sum_output \
+    --do_train \
+    --do_eval \
+    --do_test \
+    --num_train_epochs 6 \
+    --train_filename ../CONCORD_under_submission/data/finetune/cxg_code_sum/train.jsonl \
+    --dev_filename ../CONCORD_under_submission/data/finetune/cxg_code_sum/valid.jsonl \
+    --test_filename ../CONCORD_under_submission/data/finetune/cxg_code_sum/test.jsonl \
+    --max_source_length 256 \
+    --max_target_length 50 \
+    --train_batch_size 8 \
+    --eval_batch_size 8 \
+    --gradient_accumulation_steps 1 \
+    --beam_size 10
+    --learning_rate ${lr} 2>&1| tee cxg_sum_output/code_sum.log;
+```
+
 ## Pre-train CONCORD from scratch
 #### Phase-I Pre-training
 1. Merge files in `../CONCORD_under_submission/data/pre-train/github/` into one single file `train.txt` or `test.txt`
@@ -149,7 +171,7 @@ python run_mlm.py \
 ```
 #### Phase-II Pre-training
 #### Code-only
-1. Augment the samples in `../CONCORD_under_submission/data/pre-train/github/` using the this script
+1. Augment the samples in `../CONCORD_under_submission/data/pre-train/github/` with clone and clone-deviants.
 2. Run the following script. The batch size should be in total 512, as we use 2 GPUs, so we set the batch size for each device to be 4 and accumulation steps to be 64.
 ```
 python run_concord_pretrain.py \
@@ -183,6 +205,6 @@ python run_concord_pretrain.py \
 ```
 
 #### Bi-modal CONCORD
-1. Augment the samples in `../CONCORD_under_submission/data/pre-train/csnet/`.
+1. Augment the samples in `../CONCORD_under_submission/data/pre-train/csnet/` with clone and clone-deviants.
 2. Run the above script again with the new train/valid files. 
 
