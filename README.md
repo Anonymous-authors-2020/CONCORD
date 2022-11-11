@@ -36,9 +36,9 @@ python run_concord_finetune_cc_cxg.py \
         --seed 42 \
         --fp16 \
         --warmup_ratio 0.1 \
-        --train_data_file $TRAIN_FILE \
-        --eval_data_file $VALID_FILE \
-        --test_data_file $TEST_FILE \
+        --train_data_file $POJ104_TRAIN_FILE \
+        --eval_data_file $POJ104_VALID_FILE \
+        --test_data_file $POJ104_TEST_FILE \
         --overwrite_output_dir
 ```
 
@@ -68,8 +68,8 @@ python run_concord_finetune_vd.py \
 	--save_total_limit=1 \
 	--seed 42 \
 	--fp16 \
-	--train_file $TRAIN_FILE \
-	--validation_file $VALID_FILE \
+	--train_file $RV_VD_TRAIN_FILE \
+	--validation_file $RV_VD_VALID_FILE \
 	--overwrite_output_dir
 ```
 
