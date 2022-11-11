@@ -46,12 +46,12 @@ python run_concord_finetune_cc_cxg.py \
 ```
 python run_concord_finetune_vd.py \
 	--task_name cxg_vd \
-    --tokenizer_name vocab/multilingual_5k_repo_50k_vocab.txt \
+    	--tokenizer_name vocab/vocab_50k.txt \
 	--model_name_or_path $MODEL_PATH \
 	--config_name config/concord_finetune_config.json \
-	--per_device_eval_batch_size $BATCH_SIZE \
-	--per_device_train_batch_size $BATCH_SIZE \
-	--gradient_accumulation_steps $ACC_STEPS \
+	--per_device_eval_batch_size 8 \
+	--per_device_train_batch_size 8 \
+	--gradient_accumulation_steps 1 \
 	--do_train \
 	--do_eval \
 	--load_best_model_at_end \
@@ -59,7 +59,7 @@ python run_concord_finetune_vd.py \
 	--evaluation_strategy steps \
 	--eval_steps 400 \
 	--max_seq_length 512 \
-	--learning_rate $LR \
+	--learning_rate 8e-6 \
 	--num_train_epochs 10 \
 	--output_dir $OUTPUT_DIR \
 	--cache_dir $CACHE_DIR \
